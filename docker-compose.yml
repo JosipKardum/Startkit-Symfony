@@ -1,0 +1,69 @@
+version: '3'
+services:
+  apache:
+    build: .docker/apache
+    container_name: ${PROJECT_NAME}_apache
+    labels:
+    - 'traefik.backend=apache'
+    - 'traefik.port=80'
+    - 'traefik.frontend.rule=Host:${PROJECT_BASE_URL}'
+    volumes:
+    - .docker/config/vhosts:/etc/apache2/sites-enabled
+    - .:/home/wwwroot/${PROJECT_NAME}
+    depends_on:
+    - php
+
+  mysql:
+    image: mysql
+    command: "--default-authentication-plugin=mysql_native_password"
+    container_name: ${PROJECT_NAME}_mysql
+    volumes:
+    - .docker/data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+
+  php:
+    build: .docker/php
+    container_name: ${PROJECT_NAME}_php
+    volumes:
+    - .:/home/wwwroot/${PROJECT_NAME}
+    environment:
+    - mailhog_host=${PROJECT_NAME}_mailhog
+    depends_on:
+    - mailhog
+    - mysql
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${PROJECT_NAME}_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: $DB_USER
+      PMA_PASSWORD: $DB_PASSWORD
+    labels:
+    - 'traefik.backend=pma'
+    - 'traefik.port=80'
+    - 'traefik.frontend.rule=Host:pma.${PROJECT_BASE_URL}'
+    links:
+    - mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ${PROJECT_NAME}_mailhog
+    labels:
+    - 'traefik.backend=mailhog'
+    - 'traefik.port=8025'
+    - 'traefik.frontend.rule=Host:mailhog.${PROJECT_BASE_URL}'
+
+  traefik:
+    image: traefik
+    command: -c /dev/null --web --docker --logLevel=INFO
+    ports:
+    - '8000:80'
+    - '8080:8080' # Dashboard
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
