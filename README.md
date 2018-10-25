@@ -16,7 +16,7 @@ git clone https://github.com/JosipKardum/Startkit-Symfony.git
 cd Startkit-Symfony
 ```
 
-Run command
+Run docker compose command
 ```
 docker-compose up -d
 ```
@@ -24,21 +24,18 @@ Open docker container
 ```
 docker exec -it -u root project_php bash
 ```
-Open web directory
+Go to web directory
 ```
 cd project
 ```
-Composer 
+Composer command
 ```angular2html
 composer install
-```
-Go to the browser
-```angular2html
-http://localhost:8000
 ```
 
 ### Go to...
 
+* **Website** - ```http://localhost:8000```
 * **API platform** - ```http://localhost:8000/api```
 * **Phpmyadmin** - ```http://pma.localhost:8000```
 * **Mailhog** - ```http://mailhog.localhost:8000```
