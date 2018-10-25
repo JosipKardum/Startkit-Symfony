@@ -52,7 +52,7 @@ Remove server
 docker-compose down
 ```
 
-If you want to change the name, username, password etc. of database update ```.env``` file.
+If you want to change the name, username, password etc. of database, update ```.env``` file.
 
 ## Author
 * **Josip Kardum**
