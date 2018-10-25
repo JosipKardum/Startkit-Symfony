@@ -1,4 +1,4 @@
-#Startkit Symfony with API platform
+# Startkit Symfony with API platform
 
 Symfony startkit with API platform for fast developing
 
@@ -36,7 +36,7 @@ Go to the browser
 http://localhost:8000
 ```
 
-###Accessories
+### Accessories
 
 * **API platform** - ```http://localhost:8000/api```
 * **Phpmyadmin** - ```http://pma.localhost:8000```
