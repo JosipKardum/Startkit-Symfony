@@ -16,7 +16,7 @@ git clone https://github.com/JosipKardum/Startkit-Symfony.git
 cd Startkit-Symfony
 ```
 
-Run docker compose command
+Run server
 ```
 docker-compose up -d
 ```
@@ -40,6 +40,19 @@ composer install
 * **Phpmyadmin** - ```http://pma.localhost:8000```
 * **Mailhog** - ```http://mailhog.localhost:8000```
 * **Traefik Dashboard** - ```http://localhost:8080```
+
+## Accessories
+Stop server
+```
+docker-compose stop
+```
+
+Remove server
+```
+docker-compose down
+```
+
+If you want to change the name, username, password etc. of database update ```.env``` file.
 
 ## Author
 * **Josip Kardum**
