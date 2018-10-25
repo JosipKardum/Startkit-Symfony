@@ -13,6 +13,7 @@ Symfony startkit with API platform for fast developing
 Clone repository
 ```
 git clone https://github.com/JosipKardum/Startkit-Symfony.git
+cd Startkit-Symfony
 ```
 
 Run command
@@ -36,13 +37,12 @@ Go to the browser
 http://localhost:8000
 ```
 
-### Accessories
+### Go to...
 
 * **API platform** - ```http://localhost:8000/api```
 * **Phpmyadmin** - ```http://pma.localhost:8000```
 * **Mailhog** - ```http://mailhog.localhost:8000```
 * **Traefik Dashboard** - ```http://localhost:8080```
-* **API platform** - ```http://localhost:8000/api```
 
 ## Author
 * **Josip Kardum**
