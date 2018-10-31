@@ -6,6 +6,11 @@ RUN apt-get update \
     gnupg gnupg1 gnupg2 \
     zlib1g-dev
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+# here I'm copying the config file we will discuss in the next section
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 RUN docker-php-ext-install pdo pdo_mysql zip
 
 COPY php.ini /usr/local/etc/php/php.ini

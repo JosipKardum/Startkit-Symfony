@@ -31,7 +31,10 @@ services:
     volumes:
     - .:/home/wwwroot/${PROJECT_NAME}
     environment:
-    - mailhog_host=${PROJECT_NAME}_mailhog
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      PHP_IDE_CONFIG: "serverName=docker"
+      PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
+      XDEBUG_CONFIG: remote_host=10.254.254.254
     depends_on:
     - mailhog
     - mysql
