@@ -34,7 +34,7 @@ services:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       PHP_IDE_CONFIG: "serverName=docker"
       PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
-      XDEBUG_CONFIG: remote_host=10.254.254.254
+      XDEBUG_CONFIG: remote_host=172.17.0.1
     depends_on:
     - mailhog
     - mysql
