@@ -1,6 +1,6 @@
-# Startkit Symfony with API platform and Admin bundle
+# Startkit Symfony + Docker with API platform and Admin bundle
 
-[Symfony](https://symfony.com/) startkit with API platform and admin bundle
+[Symfony](https://symfony.com/) startkit + docker with API platform and admin bundle
 
 ## Getting Started
 
