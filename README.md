@@ -62,7 +62,7 @@ If you want to change the name, username, password etc. of database, update ```.
 ## Setup xdebug
 Go to 
 ```
-File > PHP > Debug > Server
+File > Settings > Languages & Frameworks > PHP > Debug > Server
 ```
 Create new server
 ```angularjs
