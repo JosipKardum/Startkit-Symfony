@@ -1,3 +1,15 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+admin_login:
+    path: /user/login
+    controller: App\Controller\AdminLoginController::login
+
+admin_logout:
+    path: /user/logout
+    controller: App\Controller\AdminLoginController::logout
+
+app_homepage:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+app_user:
+    path: /user
+    controller: App\Controller\DefaultController::user

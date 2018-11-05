@@ -4,7 +4,6 @@
 
   use Symfony\Bundle\FrameworkBundle\Controller\Controller;
   use App\Form\AdminLoginForm;
-  use Symfony\Component\Routing\Annotation\Route;
   use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
   class AdminLoginController extends Controller
@@ -19,9 +18,6 @@
       $this->authenticationUtils = $authenticationUtils;
     }
 
-    /**
-     * @Route("/user/login", name="admin_login")
-     */
     public function login()
     {
       $user = $this->getUser();
@@ -43,10 +39,7 @@
       ]);
     }
 
-    /**
-     * @Route("/user/logout", name="admin_logout")
-     */
-    public function logoutAction()
+    public function logout()
     {
       // Left empty intentionally because this will be handled by Symfony.
     }
