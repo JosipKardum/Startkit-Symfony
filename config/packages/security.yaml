@@ -17,7 +17,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         admin:
-          pattern:            /admin(.*)|user(.*)
+          pattern:            /admin(.*)|/user(.*)
           form_login:
             provider:       users
             login_path:     admin_login
@@ -40,5 +40,5 @@ security:
       - { path: ^/user/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/user/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
-      - { path: ^/user/, role: [ROLE_USER] }
+      - { path: ^/user, role: [ROLE_USER] }
       - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
