@@ -20,10 +20,18 @@
     }
 
     /**
-     * @Route("/admin/login", name="admin_login")
+     * @Route("/user/login", name="admin_login")
      */
     public function login()
     {
+      $user = $this->getUser();
+      if($user) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+          return $this->redirectToRoute('sonata_admin_dashboard');
+        } else {
+          return $this->redirectToRoute('app_user');
+        }
+      }
       $form = $this->createForm(AdminLoginForm::class, [
         'email' => $this->authenticationUtils->getLastUsername()
       ]);
@@ -36,7 +44,7 @@
     }
 
     /**
-     * @Route("/admin/logout", name="admin_logout")
+     * @Route("/user/logout", name="admin_logout")
      */
     public function logoutAction()
     {

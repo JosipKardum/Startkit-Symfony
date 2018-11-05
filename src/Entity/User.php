@@ -94,10 +94,6 @@
       return $this;
     }
 
-    public function hasRole($roles) {
-      return in_array($roles, $this->roles);
-    }
-
 
     /**
      * Returns the salt that was originally used to encode the password.

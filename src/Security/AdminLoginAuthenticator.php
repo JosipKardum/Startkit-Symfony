@@ -33,9 +33,9 @@
     private $router;
 
     /**
-     * @var UserRepository
+     * @var User
      */
-    private $userRepository;
+    private $loggedUser;
 
     /**
      * @var EntityManagerInterface
@@ -57,15 +57,13 @@
       $this->router = $router;
       $this->passwordEncoder = $passwordEncoder;
       $this->entityManager = $entityManager;
+      $this->loggedUser = null;
     }
 
     public function supports(Request $request): bool
     {
-      if ($request->getPathInfo() != '/admin/login' || $request->getMethod() != 'POST') {
-        return false;
-      }
-
-      return true;
+      return 'admin_login' === $request->attributes->get('_route')
+        && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request): array
@@ -82,36 +80,34 @@
       return $data;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
+    public function getUser($credentials, UserProviderInterface $userProvider)
     {
       if(empty($this->entityManager->getRepository(User::class)->findByRole('ROLE_ADMIN'))) {
         $user = new User();
         $user->setEmail($credentials['email']);
         $password = $this->passwordEncoder->encodePassword($user, $credentials['password']);
         $user->setPassword($password);
-        $user->setRoles(["ROLE_ADMIN"]);
+        $user->setRoles(["SUPER_ADMIN_ROLE","ROLE_ADMIN", "ROLE_USER"]);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        return $user;
       } else {
-        return $userProvider->loadUserByUsername($credentials['email']);
+        $user = $userProvider->loadUserByUsername($credentials['email']);
       }
+      $this->loggedUser = $user;
+      return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user): bool
+    public function checkCredentials($credentials, UserInterface $user)
     {
       if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+        $this->loggedUser = null;
         return false;
-      }
-
-      if (!$user->hasRole('ROLE_ADMIN')) {
-        throw new CustomUserMessageAuthenticationException("You don't have permission to access that page.");
       }
 
       return true;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
       $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
@@ -123,8 +119,12 @@
       return new RedirectResponse($this->router->generate('admin_login'));
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-      return new RedirectResponse($this->router->generate('sonata_admin_dashboard'));
+      if (in_array('ROLE_ADMIN', $this->loggedUser->getRoles())) {
+        return new RedirectResponse($this->router->generate('sonata_admin_dashboard'));
+      } else {
+        return new RedirectResponse($this->router->generate('app_user'));
+      }
     }
   }
