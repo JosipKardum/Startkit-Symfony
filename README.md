@@ -76,3 +76,4 @@ Enable "Use path mappings" and set absolute path on the server
 
 ## Author
 * **Josip Kardum**
+* **[Josip Saric](https://github.com/josaric)**
